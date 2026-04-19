@@ -260,7 +260,7 @@ def crear_reserva(reserva: Reserva, usuario=Depends(get_current_user)):
         conexion.close()
         raise HTTPException(status_code=400, detail="La mesa no está disponible")
  
-    if reserva.num_personas > mesa[0]:
+    if reserva.personas > mesa[0]:
         conexion.close()
         raise HTTPException(
             status_code=400,
@@ -269,7 +269,7 @@ def crear_reserva(reserva: Reserva, usuario=Depends(get_current_user)):
  
     try:
         cursor.execute(
-            """INSERT INTO reserva (usuario_id, id_mesa, fecha, hora, personas, estado)
+            """INSERT INTO reservas (usuario_id, id_mesa, fecha, hora, personas, estado)
                VALUES (%s, %s, %s, %s, %s, %s)""",
             (usuario["id"], reserva.id_mesa, reserva.fecha, reserva.hora, reserva.personas, "pendiente")
         )
