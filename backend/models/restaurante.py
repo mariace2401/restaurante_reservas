@@ -32,3 +32,5 @@ class Restaurante_listResponse(BaseModel):
     telefono: str
     descripcion: str
     administrador: str
+
+    
