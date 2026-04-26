@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserva Restaurante</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🍽️ Restaurante</h1>
+
+    <h2>Iniciar sesión</h2>
+    <input type="text" id="usuario" placeholder="Usuario">
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="login()">Login</button>
+
+    <hr>
+
+    <h2>Reservar</h2>
+    <input type="date" id="fecha">
+    <input type="number" id="personas" placeholder="Personas">
+    <button onclick="hacerReserva()">Reservar</button>
+
+    <p id="mensaje"></p>
+
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
