@@ -12,17 +12,37 @@
 
     <h1>🍽️ Restaurante</h1>
 
-    <h2>Iniciar sesión</h2>
-    <input type="text" id="usuario" placeholder="Usuario">
-    <input type="password" id="password" placeholder="Contraseña">
-    <button onclick="login()">Login</button>
+    <!-- 🔹 LOGIN -->
+    <div id="loginBox">
+        <h2>Iniciar sesión</h2>
+        <input type="text" id="usuario" placeholder="Usuario">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="login()">Login</button>
 
-    <hr>
+        <p onclick="mostrarRegistro()" style="cursor:pointer; color:blue;">
+            ¿No tienes cuenta? Regístrate
+        </p>
+    </div>
 
-    <h2>Reservar</h2>
-    <input type="date" id="fecha">
-    <input type="number" id="personas" placeholder="Personas">
-    <button onclick="hacerReserva()">Reservar</button>
+    <!-- 🔹 REGISTRO -->
+    <div id="registroBox" style="display:none;">
+        <h2>Registrarse</h2>
+        <input type="text" id="nuevo_usuario" placeholder="Nuevo usuario">
+        <input type="password" id="nuevo_password" placeholder="Nueva contraseña">
+        <button onclick="registrar()">Registrarse</button>
+
+        <p onclick="mostrarLogin()" style="cursor:pointer; color:blue;">
+            ¿Ya tienes cuenta? Inicia sesión
+        </p>
+    </div>
+
+    <!-- 🔹 RESERVA (OCULTO) -->
+    <div id="reservaBox" style="display:none;">
+        <h2>Reservar</h2>
+        <input type="date" id="fecha">
+        <input type="number" id="personas" placeholder="Personas">
+        <button onclick="hacerReserva()">Reservar</button>
+    </div>
 
     <p id="mensaje"></p>
 
