@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ReserVibe — Mis Reservas</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<nav>
+  <span class="nav-logo">ReserVibe</span>
+  <div class="nav-links">
+    <a href="restaurantes.html">Restaurantes</a>
+    <a href="mis-reservas.html">Mis reservas</a>
+    <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
+  </div>
+</nav>
+<div class="content" style="max-width:780px">
+  <div class="header-row">
+    <div>
+      <h2>Mis reservas</h2>
+      <p>Aquí puedes ver y gestionar tus reservas activas</p>
+    </div>
+    <button class="btn-nueva" onclick="window.location.href='restaurantes.html'">+ Nueva reserva</button>
+  </div>
+  <div class="lista" id="lista">
+    <div class="loading">Cargando...</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="js/mis-reservas.js"></script>
+</body>
+</html>

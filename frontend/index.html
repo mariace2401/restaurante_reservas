@@ -1,53 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Reserva Restaurante</title>
-    <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ReserVibe — Acceso</title>
+  <link rel="stylesheet" href="css/style.css"/>
 </head>
-
 <body>
-
-<div class="container">
-
-    <h1>🍽️ Restaurante</h1>
-
-    <!-- 🔹 LOGIN -->
-    <div id="loginBox">
-        <h2>Iniciar sesión</h2>
-        <input type="text" id="usuario" placeholder="Usuario">
-        <input type="password" id="password" placeholder="Contraseña">
-        <button onclick="login()">Login</button>
-
-        <p onclick="mostrarRegistro()" style="cursor:pointer; color:blue;">
-            ¿No tienes cuenta? Regístrate
-        </p>
+<div class="wrap">
+  <div class="logo">
+    <h1>ReserVibe</h1>
+    <p>Tu mesa, tu momento</p>
+  </div>
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" id="tab-login"    onclick="switchTab('login')">Iniciar sesión</button>
+      <button class="tab"        id="tab-registro" onclick="switchTab('registro')">Registrarse</button>
     </div>
-
-    <!-- 🔹 REGISTRO -->
-    <div id="registroBox" style="display:none;">
-        <h2>Registrarse</h2>
-        <input type="text" id="nuevo_usuario" placeholder="Nuevo usuario">
-        <input type="password" id="nuevo_password" placeholder="Nueva contraseña">
-        <button onclick="registrar()">Registrarse</button>
-
-        <p onclick="mostrarLogin()" style="cursor:pointer; color:blue;">
-            ¿Ya tienes cuenta? Inicia sesión
-        </p>
+    <div class="panel active" id="panel-login">
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input type="email" id="login-correo" placeholder="tu@correo.com"/>
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()"/>
+      </div>
+      <button class="btn" onclick="doLogin()">Entrar</button>
+      <div class="msg" id="login-msg"></div>
     </div>
-
-    <!-- 🔹 RESERVA (OCULTO) -->
-    <div id="reservaBox" style="display:none;">
-        <h2>Reservar</h2>
-        <input type="date" id="fecha">
-        <input type="number" id="personas" placeholder="Personas">
-        <button onclick="hacerReserva()">Reservar</button>
+    <div class="panel" id="panel-registro">
+      <div class="field">
+        <label>Nombre completo</label>
+        <input type="text" id="reg-nombre" placeholder="Tu nombre"/>
+      </div>
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input type="email" id="reg-correo" placeholder="tu@correo.com"/>
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="reg-pass" placeholder="Mínimo 8 caracteres"/>
+      </div>
+      <button class="btn" onclick="doRegistro()">Crear cuenta</button>
+      <div class="msg" id="reg-msg"></div>
     </div>
-
-    <p id="mensaje"></p>
-
+  </div>
 </div>
-
-<script src="/static/script.js"></script>
+<script src="js/auth.js"></script>
 </body>
 </html>
