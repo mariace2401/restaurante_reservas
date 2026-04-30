@@ -4,19 +4,19 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ReserVibe — Reservar</title>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
 </head>
 <body>
 <nav>
   <span class="nav-logo">ReserVibe</span>
   <div class="nav-links">
-    <a href="restaurantes.html">Restaurantes</a>
-    <a href="mis-reservas.html">Mis reservas</a>
+    <a href="/restaurantes-page">Restaurantes</a>
+    <a href="/mis-reservas-page">Mis reservas</a>
     <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
   </div>
 </nav>
 <div class="content" style="max-width:680px">
-  <button class="back-btn" onclick="window.location.href='restaurantes.html'">← Volver</button>
+  <button class="back-btn" onclick="window.location.href='/restaurantes-page'">← Volver</button>
   <div class="rest-header">
     <h2 id="rest-nombre">Cargando...</h2>
     <p id="rest-direccion"></p>
@@ -46,6 +46,6 @@
     <div class="msg" id="msg"></div>
   </div>
 </div>
-<script src="js/reservar.js"></script>
+<script src="/static/js/Reservar.js"></script>
 </body>
 </html>

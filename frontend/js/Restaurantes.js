@@ -4,12 +4,12 @@ const ICONOS = ['🍽️','🍜','🥞','🍗','🥩','🍱'];
 function logout() {
   localStorage.removeItem('rv_token');
   localStorage.removeItem('rv_rol');
-  window.location.href = 'index.html';
+  window.location.href = '/';
 }
 
 async function cargarRestaurantes() {
   const token = localStorage.getItem('rv_token');
-  if (!token) { window.location.href = 'index.html'; return; }
+  if (!token) { window.location.href = '/'; return; }
 
   try {
     const r = await fetch(API + '/restaurantes');
@@ -30,7 +30,7 @@ async function cargarRestaurantes() {
           📍 <span>${rest.direccion}</span><br/>
           📞 <span>${rest.telefono || 'N/A'}</span>
         </div>
-        <button class="btn-reservar" onclick="window.location.href='reservar.html?id=${rest.id}&nombre=${encodeURIComponent(rest.nombre)}'">
+        <button class="btn-reservar" onclick="window.location.href='/reservar-page?id=${rest.id}&nombre=${encodeURIComponent(rest.nombre)}'">
           Reservar mesa
         </button>
       </div>

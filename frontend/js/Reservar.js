@@ -4,7 +4,7 @@ let mesaSeleccionada = null;
 function logout() {
   localStorage.removeItem('rv_token');
   localStorage.removeItem('rv_rol');
-  window.location.href = 'index.html';
+  window.location.href = '/';
 }
 
 function getParams() {
@@ -28,7 +28,7 @@ function seleccionarMesa(id, numero, capacidad) {
 
 async function cargarDetalle() {
   const token = localStorage.getItem('rv_token');
-  if (!token) { window.location.href = 'index.html'; return; }
+  if (!token) { window.location.href = '/'; return; }
 
   const { id, nombre } = getParams();
   document.getElementById('rest-nombre').textContent = decodeURIComponent(nombre || '');
@@ -60,7 +60,7 @@ async function cargarDetalle() {
 
 async function doReservar() {
   const token = localStorage.getItem('rv_token');
-  if (!token) { window.location.href = 'index.html'; return; }
+  if (!token) { window.location.href = '/'; return; }
   if (!mesaSeleccionada) { showMsg('err', 'Selecciona una mesa primero'); return; }
 
   const fecha    = document.getElementById('fecha').value;
@@ -85,7 +85,7 @@ async function doReservar() {
     const d = await r.json();
     if (r.ok) {
       showMsg('ok', '¡Reserva creada! Redirigiendo...');
-      setTimeout(() => window.location.href = 'mis-reservas.html', 1500);
+      setTimeout(() => window.location.href = '/mis-reservas-page', 1500);
     } else {
       showMsg('err', d.detail || 'Error al crear la reserva');
     }

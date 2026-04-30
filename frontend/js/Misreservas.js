@@ -3,7 +3,7 @@ const API = "http://127.0.0.1:8000";
 function logout() {
   localStorage.removeItem('rv_token');
   localStorage.removeItem('rv_rol');
-  window.location.href = 'index.html';
+  window.location.href = '/';
 }
 
 function showToast(type, text) {
@@ -21,7 +21,7 @@ function formatFecha(f) {
 
 async function cargarReservas() {
   const token = localStorage.getItem('rv_token');
-  if (!token) { window.location.href = 'index.html'; return; }
+  if (!token) { window.location.href = '/'; return; }
 
   try {
     const r = await fetch(API + '/reservas/mis-reservas', {
@@ -34,7 +34,7 @@ async function cargarReservas() {
       lista.innerHTML = `
         <div class="empty">
           <h3>Sin reservas activas</h3>
-          <p>¿Listo para tu próxima experiencia? <a href="restaurantes.html">Ver restaurantes</a></p>
+          <p>¿Listo para tu próxima experiencia? <a href="/restaurantes-page">Ver restaurantes</a></p>
         </div>`;
       return;
     }
@@ -75,7 +75,7 @@ async function cancelar(id) {
         document.getElementById('lista').innerHTML = `
           <div class="empty">
             <h3>Sin reservas activas</h3>
-            <p><a href="restaurantes.html">Ver restaurantes</a></p>
+            <p><a href="/restaurantes-page">Ver restaurantes</a></p>
           </div>`;
       }
     } else {

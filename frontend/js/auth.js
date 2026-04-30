@@ -28,7 +28,7 @@ async function doLogin() {
       localStorage.setItem('rv_token', d.access_token);
       localStorage.setItem('rv_rol', d.rol);
       showMsg('login-msg', 'ok', '¡Bienvenido! Redirigiendo...');
-      setTimeout(() => window.location.href = 'restaurantes.html', 1200);
+      setTimeout(() => window.location.href = '/restaurantes-page', 1200);
     } else {
       showMsg('login-msg', 'err', d.detail || 'Credenciales incorrectas');
     }
