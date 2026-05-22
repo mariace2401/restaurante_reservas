@@ -1,3 +1,5 @@
+import traceback
+import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -37,6 +39,20 @@ def home():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/debug-db")
+def debug_db():
+    try:
+        from backend.database import get_connection
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM restaurante")
+        count = cur.fetchone()[0]
+        cur.close()
+        conn.close()
+        return {"db_url_set": bool(os.getenv("DATABASE_URL")), "restaurantes": count}
+    except Exception as e:
+        return {"db_url_set": bool(os.getenv("DATABASE_URL")), "error": str(e), "traceback": traceback.format_exc()}
 
 
 @app.get("/restaurantes-page", response_class=HTMLResponse)
