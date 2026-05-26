@@ -5,11 +5,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from backend.init_db import init_db
+
 
 from backend.routes import auth, reservas, restaurantes
 
 load_dotenv()
-
+init_db()
 app = FastAPI()
 
 
