@@ -12,6 +12,7 @@ def crear_reserva(reserva: ReservaCreate, usuario: dict = Depends(get_current_us
     conexion = get_connection()
     cursor = conexion.cursor()
 
+
     cursor.execute(
         "SELECT capacidad, disponible FROM mesa WHERE id = %s",
         (reserva.id_mesa,)
@@ -32,6 +33,25 @@ def crear_reserva(reserva: ReservaCreate, usuario: dict = Depends(get_current_us
             status_code=400,
             detail=f"La mesa tiene capacidad para {mesa[0]} personas"
         )
+
+    # Verificar que no exista otra reserva en la misma mesa, fecha y hora
+    cursor.execute(
+        """SELECT id FROM reservas 
+           WHERE id_mesa = %s 
+           AND fecha = %s 
+           AND hora = %s 
+           AND estado != 'cancelada'""",
+        (reserva.id_mesa, reserva.fecha, reserva.hora)
+    )
+    reserva_existente = cursor.fetchone()
+
+    if reserva_existente:
+        conexion.close()
+        raise HTTPException(
+            status_code=400, 
+            detail="Ya existe una reserva para esa mesa, fecha y hora"
+        )    
+
 
     try:
         cursor.execute(
