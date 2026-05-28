@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:8000";
+const API = "https://reservibe-tdr2.onrender.com";
 
 function switchTab(t) {
   document.getElementById('panel-login').classList.toggle('active', t === 'login');
