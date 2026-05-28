@@ -1,5 +1,6 @@
 import traceback
 import os
+from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,8 +12,15 @@ from backend.init_db import init_db
 from backend.routes import auth, reservas, restaurantes
 
 load_dotenv()
-init_db()
-app = FastAPI()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 app.add_middleware(
