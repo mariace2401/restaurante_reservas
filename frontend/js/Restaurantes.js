@@ -1,5 +1,10 @@
 const API = "http://127.0.0.1:8000";
-const ICONOS = ['🍽️','🍜','🥞','🍗','🥩','🍱'];
+const ICONOS_POR_RESTAURANTE = {
+  'Crepes & Waffles': '🥞',
+  'Frisby':           '🍗',
+  'Salchipaisa':      '🌭',
+  'Dragón de Oro':    '🍜'
+};
 
 function logout() {
   localStorage.removeItem('rv_token');
@@ -23,7 +28,7 @@ async function cargarRestaurantes() {
 
     grid.innerHTML = data.map((rest, i) => `
       <div class="rest-card" style="animation-delay:${i * 0.07}s">
-        <div class="card-icon">${ICONOS[i % ICONOS.length]}</div>
+        <div class="card-icon">${ICONOS_POR_RESTAURANTE[rest.nombre] || '🍽️'}</div>
         <h3>${rest.nombre}</h3>
         <p>${rest.descripcion || 'Restaurante en Pereira'}</p>
         <div class="meta">
