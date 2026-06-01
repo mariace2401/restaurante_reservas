@@ -1,4 +1,7 @@
-const API = "https://reservibe-tdr2.onrender.com";
+const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://127.0.0.1:8000'
+  : 'https://reservibe-tdr2.onrender.com';
+
 const ICONOS_POR_RESTAURANTE = {
   'Crepes & Waffles': '🥞',
   'Frisby':           '🍗',
