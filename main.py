@@ -22,6 +22,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+init_db()
 
 app.add_middleware(
     CORSMiddleware,
