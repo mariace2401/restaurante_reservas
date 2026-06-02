@@ -6,9 +6,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from starlette.responses import FileResponse
 from backend.init_db import init_db
-from backend.seed import seed_data
+from backend.seed import seed_data as _seed_data
 
 
 from backend.routes import auth, reservas, restaurantes
@@ -19,7 +18,7 @@ load_dotenv()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
-    seed_data()
+    _seed_data()
     yield
 
 
@@ -44,8 +43,8 @@ app.include_router(restaurantes.router)
 
 @app.get("/", response_class=HTMLResponse)
 def home():
-    content = open("frontend/index.html").read()
-    return HTMLResponse(content=content, headers={"Cache-Control": "no-store"})
+    with open("frontend/index.html") as f:
+        return f.read()
 
 
 @app.get("/health")
@@ -69,19 +68,15 @@ def debug_db():
 
 @app.get("/restaurantes-page", response_class=HTMLResponse)
 def restaurantes_page():
-    content = open("frontend/Restaurantes.html").read()
-    return HTMLResponse(content=content, headers={"Cache-Control": "no-store"})
+    with open("frontend/Restaurantes.html") as f:
+        return f.read()
 
 @app.get("/reservar-page", response_class=HTMLResponse)
 def reservar_page():
-    content = open("frontend/Reservar.html").read()
-    return HTMLResponse(content=content, headers={"Cache-Control": "no-store"})
+    with open("frontend/Reservar.html") as f:
+        return f.read()
 
 @app.get("/mis-reservas-page", response_class=HTMLResponse)
 def mis_reservas_page():
-    content = open("frontend/Misreservas.html").read()
-    return HTMLResponse(content=content, headers={"Cache-Control": "no-store"})
-
-@app.get("/static/js/Mis%3Creservas.js")
-def misreservas_fallback():
-    return FileResponse("frontend/js/Misreservas.js")
+    with open("frontend/Misreservas.html") as f:
+        return f.read()
