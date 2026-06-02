@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from backend.init_db import init_db
+from backend.seed import seed_data
 
 
 from backend.routes import auth, reservas, restaurantes
@@ -17,6 +18,7 @@ load_dotenv()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    seed_data()
     yield
 
 
