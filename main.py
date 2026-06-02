@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.responses import FileResponse
 from backend.init_db import init_db
 from backend.seed import seed_data
 
@@ -43,8 +44,8 @@ app.include_router(restaurantes.router)
 
 @app.get("/", response_class=HTMLResponse)
 def home():
-    with open("frontend/index.html") as f:
-        return f.read()
+    content = open("frontend/index.html").read()
+    return HTMLResponse(content=content, headers={"Cache-Control": "no-store"})
 
 
 @app.get("/health")
@@ -68,15 +69,19 @@ def debug_db():
 
 @app.get("/restaurantes-page", response_class=HTMLResponse)
 def restaurantes_page():
-    with open("frontend/Restaurantes.html") as f:
-        return f.read()
+    content = open("frontend/Restaurantes.html").read()
+    return HTMLResponse(content=content, headers={"Cache-Control": "no-store"})
 
 @app.get("/reservar-page", response_class=HTMLResponse)
 def reservar_page():
-    with open("frontend/Reservar.html") as f:
-        return f.read()
+    content = open("frontend/Reservar.html").read()
+    return HTMLResponse(content=content, headers={"Cache-Control": "no-store"})
 
 @app.get("/mis-reservas-page", response_class=HTMLResponse)
 def mis_reservas_page():
-    with open("frontend/Misreservas.html") as f:
-        return f.read()
+    content = open("frontend/Misreservas.html").read()
+    return HTMLResponse(content=content, headers={"Cache-Control": "no-store"})
+
+@app.get("/static/js/Mis%3Creservas.js")
+def misreservas_fallback():
+    return FileResponse("frontend/js/Misreservas.js")
