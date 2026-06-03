@@ -1,5 +1,5 @@
 // const API ='http://127.0.0.1:8000'
-const API ='https://restaurante-reservas-g9hl.onrender.com/';
+const API ='https://restaurante-reservas-g9hl.onrender.com';
 
 function logout() {
   localStorage.removeItem('rv_token');
