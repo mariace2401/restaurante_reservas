@@ -70,6 +70,26 @@ def init_db():
         );
     """)
 
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS solicitudes_admin (
+            id                 SERIAL PRIMARY KEY,
+            id_usuario         INTEGER NOT NULL REFERENCES usuarios(id),
+            nombre_restaurante VARCHAR(120) NOT NULL,
+            telefono           VARCHAR(20),
+            direccion          VARCHAR(255) NOT NULL,
+            descripcion        TEXT,
+            num_mesas          INTEGER NOT NULL,
+            capacidad_mesas    INTEGER NOT NULL,
+            estado             VARCHAR(20) NOT NULL DEFAULT 'pendiente',
+            fecha_solicitud    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    """)
+
+    cursor.execute("""
+        ALTER TABLE solicitudes_admin
+        ADD COLUMN IF NOT EXISTS horarios JSONB DEFAULT '[]'::jsonb
+    """)
+
     conexion.commit()
     conexion.close()
     print("✅ Base de datos inicializada correctamente")

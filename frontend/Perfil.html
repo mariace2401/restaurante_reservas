@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ReserVibe — Reservar</title>
+  <title>ReserVibe — Mi Perfil</title>
   <link rel="stylesheet" href="/static/css/style.css"/>
 </head>
 <body>
@@ -19,37 +19,33 @@
     <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
   </div>
 </nav>
-<div class="content" style="max-width:680px">
+<div class="content" style="max-width:500px">
   <button class="back-btn" onclick="window.location.href='/restaurantes-page'">← Volver</button>
   <div class="rest-header">
-    <h2 id="rest-nombre">Cargando...</h2>
-    <p id="rest-direccion"></p>
+    <h2>Mi perfil</h2>
+    <p>Consulta y edita tu información personal</p>
   </div>
-  <div class="section-title">Horarios de atención</div>
-  <div class="horarios" id="horarios"></div>
-  <div class="section-title">Selecciona una mesa</div>
-  <div class="mesas-grid" id="mesas"></div>
   <div class="form-card">
-    <div class="section-title" style="margin-bottom:1.25rem">Datos de la reserva</div>
-    <p class="mesa-seleccionada" id="mesa-seleccionada">Ninguna mesa seleccionada</p>
-    <div class="row">
-      <div class="field">
-        <label>Fecha</label>
-        <input type="date" id="fecha"/>
-      </div>
-      <div class="field">
-        <label>Hora</label>
-        <input type="time" id="hora"/>
-      </div>
+    <div class="field">
+      <label>Nombre</label>
+      <input type="text" id="nombre" placeholder="Tu nombre"/>
     </div>
     <div class="field">
-      <label>Número de personas</label>
-      <input type="number" id="personas" min="1" placeholder="¿Cuántos van?"/>
+      <label>Correo electrónico</label>
+      <input type="email" id="correo" disabled style="opacity:.7"/>
     </div>
-    <button class="btn" onclick="doReservar()">Confirmar reserva</button>
+    <div class="field">
+      <label>Rol</label>
+      <input type="text" id="rol" disabled style="opacity:.7"/>
+    </div>
+    <div class="field">
+      <label>Nueva contraseña (dejar vacío para no cambiar)</label>
+      <input type="password" id="password" placeholder="Mínimo 8 caracteres"/>
+    </div>
+    <button class="btn" onclick="guardarPerfil()">Guardar cambios</button>
     <div class="msg" id="msg"></div>
   </div>
 </div>
-<script src="/static/js/Reservar.js"></script>
+<script src="/static/js/Perfil.js"></script>
 </body>
 </html>

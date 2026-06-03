@@ -1,18 +1,15 @@
 from backend.database import get_connection
 
 USUARIOS = [
-    (1, "Santiago", "santiago@gmail.com", "$2b$12$FpDS.lt8/6lcxoVmdh/XreGsE5MGjE0fCO3IiCe6H.Ii.0dUA0WDW", "admin"),
-    (2, "Admin ReserVibe", "admin@reservibe.com", "$2b$12$sUuuAoZflvJbExN.fhWHb.beQqiXJLkW.OmZ16gRaoc627HvBx5q2", "cliente"),
-    (3, "Santiago Aristizabal", "aristizabal7@gmail.com", "$2b$12$EajoM8eLPqJnRo5FE.QqZOIF5MHkp3lExo8XxX9aBSX/aTuvos17K", "cliente"),
-    (4, "Mariana", "mari2401@gmail.com", "$2b$12$a0HZSp7BsmSiUWm0ewvpdOyRjuyttRwEFeH.pOc.e/g1OZAv0dJCa", "cliente"),
-    (5, "Juan Felipe Londoño", "Juanfelipelondonomarin@gmail.com", "$2b$12$8QLG7Y3/XE/lytiFTAAR6.MOMwgWWnWXYmuelmkvwSizGXXZv5Un2", "cliente"),
+    (1, "Santiago Aristizabal", "aristisantiago7@gmail.com", "$2b$12$VYA6faCVQr2zMnsDIllhO.7DPy8pGJlB68jNS9N9W5AWVkz.PxqfO", "superadmin"),
+    (2, "Mariana Acevedo", "mariace2401@gmail.com", "$2b$12$RsHAmpP0ZEsn8TdYEa2nx.UrKL.N6pgRgmuogNt/5vlU7TvtUcnmy", "admin"),
 ]
 
 RESTAURANTES = [
-    (1, 1, "Crepes & Waffles", "Centro Comercial Unicentro, Pereira", "3101111111", "Cocina internacional, crepes dulces y salados"),
-    (2, 1, "Frisby", "Carrera 8 #18-32, Pereira", "3102222222", "Pollo frito estilo colombiano"),
-    (3, 1, "Salchipaisa", "Calle 19 #6-10, Pereira", "3103333333", "Comida típica paisa, salchipapas y más"),
-    (4, 1, "Dragón de Oro", "Carrera 10 #15-40, Pereira", "3104444444", "Restaurante de comida china, especialidad en arroz"),
+    (1, 2, "Crepes & Waffles", "Centro Comercial Unicentro, Pereira", "3101111111", "Cocina internacional, crepes dulces y salados"),
+    (2, 2, "Frisby", "Carrera 8 #18-32, Pereira", "3102222222", "Pollo frito estilo colombiano"),
+    (3, 2, "Salchipaisa", "Calle 19 #6-10, Pereira", "3103333333", "Comida típica paisa, salchipapas y más"),
+    (4, 2, "Dragón de Oro", "Carrera 10 #15-40, Pereira", "3104444444", "Restaurante de comida china, especialidad en arroz"),
 ]
 
 HORARIOS = [
@@ -40,21 +37,7 @@ MESAS = [
     (12, 4, 1, 2), (13, 4, 2, 4), (14, 4, 3, 4), (15, 4, 4, 6),
 ]
 
-RESERVAS = [
-    (1, 3, 5, "2026-04-30", "19:56", 2, "cancelada"),
-    (2, 3, 10, "2026-04-30", "16:30", 4, "pendiente"),
-    (3, 4, 5, "2026-05-01", "15:58", 2, "pendiente"),
-    (4, 3, 1, "2026-04-05", "16:00", 2, "pendiente"),
-    (5, 3, 15, "2026-05-04", "12:30", 1, "cancelada"),
-    (6, 3, 15, "2026-05-04", "12:30", 5, "cancelada"),
-    (7, 3, 15, "2026-05-04", "12:30", 5, "pendiente"),
-    (8, 3, 6, "2026-05-04", "12:29", 4, "pendiente"),
-    (9, 3, 8, "2026-05-05", "23:50", 5, "pendiente"),
-    (10, 3, 6, "2026-05-04", "12:29", 4, "pendiente"),
-    (11, 3, 1, "2026-05-04", "14:25", 2, "pendiente"),
-    (12, 3, 10, "2026-05-08", "16:30", 4, "pendiente"),
-    (13, 5, 15, "2026-10-30", "14:00", 5, "pendiente"),
-]
+RESERVAS = []
 
 
 def seed_data():
@@ -98,6 +81,10 @@ def seed_data():
     cursor.execute("SELECT setval('horario_id_seq', (SELECT MAX(id) FROM horario))")
     cursor.execute("SELECT setval('mesa_id_seq', (SELECT MAX(id) FROM mesa))")
     cursor.execute("SELECT setval('reservas_id_seq', (SELECT MAX(id) FROM reservas))")
+    try:
+        cursor.execute("SELECT setval('solicitudes_admin_id_seq', (SELECT MAX(id) FROM solicitudes_admin))")
+    except:
+        pass
 
     conexion.commit()
     conexion.close()

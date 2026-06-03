@@ -196,6 +196,8 @@ nav {
   transition: all .2s;
 }
 .tab.active { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+.tab-btn { border: 1px solid var(--border); background: transparent; color: var(--text); padding: .5rem .75rem; border-radius: 10px; cursor: pointer; transition: all .2s; }
+.tab-btn.active { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border-color: transparent; }
 .panel { display: none; }
 .panel.active { display: block; }
 
@@ -312,6 +314,8 @@ nav {
 }
 .badge.pendiente  { background: #fbbf2420; color: var(--warn); border: 1px solid #92400e; }
 .badge.confirmada { background: #4ade8020; color: var(--ok);   border: 1px solid #166534; }
+.badge.aprobada   { background: #4ade8020; color: var(--ok);   border: 1px solid #166534; }
+.badge.rechazada  { background: #f8717120; color: var(--err); border: 1px solid #991b1b; }
 .btn-cancelar {
   padding: .5rem 1rem; border-radius: 8px;
   border: 1px solid var(--border); background: transparent;

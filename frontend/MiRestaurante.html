@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ReserVibe — Mi Restaurante</title>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<nav>
+  <span class="nav-logo">ReserVibe</span>
+  <div class="nav-links">
+    <a href="/restaurantes-page">Restaurantes</a>
+    <a href="/mis-reservas-page">Mis reservas</a>
+    <a href="/perfil-page">Mi perfil</a>
+    <a id="nav-mi-restaurante" href="/mi-restaurante-page">Mi restaurante</a>
+    <a id="nav-solicitudes" href="/admin-solicitudes-page" style="display:none">Solicitudes</a>
+    <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
+  </div>
+</nav>
+  <div class="content" style="max-width:800px">
+    <div class="rest-header" id="rest-header">
+      <h2>Mi restaurante</h2>
+      <p>Gestiona la información de tu restaurante</p>
+    </div>
+
+    <div id="selector" style="display:none">
+      <div class="grid" id="selector-lista"></div>
+    </div>
+
+    <div id="gestion" style="display:none">
+      <button class="back-btn" onclick="window.location.href='/mi-restaurante-page'">← Todos los restaurantes</button>
+      <div class="form-card">
+    <div class="section-title">Información general</div>
+    <div class="field">
+      <label>Nombre del restaurante</label>
+      <input type="text" id="rest-nombre" placeholder="Nombre"/>
+    </div>
+    <div class="field">
+      <label>Dirección</label>
+      <input type="text" id="rest-direccion" placeholder="Dirección"/>
+    </div>
+    <div class="field">
+      <label>Teléfono</label>
+      <input type="text" id="rest-telefono" placeholder="Teléfono"/>
+    </div>
+    <div class="field">
+      <label>Descripción</label>
+      <input type="text" id="rest-descripcion" placeholder="Descripción"/>
+    </div>
+    <button class="btn" onclick="guardarRestaurante()">Guardar cambios</button>
+    <div class="msg" id="msg-rest"></div>
+  </div>
+
+  <div class="form-card" style="margin-top:1.5rem">
+    <div class="section-title">Horarios de atención</div>
+    <div id="horarios-container"></div>
+    <button class="btn" onclick="guardarHorarios()" style="margin-top:1rem">Guardar horarios</button>
+    <div class="msg" id="msg-horarios"></div>
+  </div>
+
+  <div class="form-card" style="margin-top:1.5rem">
+    <div class="section-title">Mesas</div>
+    <div id="mesas-container"></div>
+    <div style="display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap">
+      <input type="number" id="nueva-mesa-numero" placeholder="N° mesa" style="flex:1;min-width:80px"/>
+      <input type="number" id="nueva-mesa-capacidad" placeholder="Capacidad" style="flex:1;min-width:80px"/>
+      <button class="btn" onclick="agregarMesa()" style="margin:0">+ Agregar mesa</button>
+    </div>
+    <div class="msg" id="msg-mesas"></div>
+  </div>
+
+  <div class="form-card" style="margin-top:1.5rem">
+    <div class="section-title">Reservas recibidas</div>
+    <div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap">
+      <input type="date" id="filtro-fecha" style="flex:1"/>
+      <button class="btn" onclick="cargarReservas()" style="margin:0">Filtrar por fecha</button>
+    </div>
+    <div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap">
+      <button class="btn tab-btn active" data-tab="pendiente" onclick="switchTab('pendiente')" style="flex:1;margin:0">Pendientes (<span id="count-pendiente">0</span>)</button>
+      <button class="btn tab-btn" data-tab="confirmada" onclick="switchTab('confirmada')" style="flex:1;margin:0">Confirmadas (<span id="count-confirmada">0</span>)</button>
+      <button class="btn tab-btn" data-tab="cancelada" onclick="switchTab('cancelada')" style="flex:1;margin:0">Canceladas (<span id="count-cancelada">0</span>)</button>
+    </div>
+    <div id="reservas-container"></div>
+    </div> <!-- /gestion -->
+  </div> <!-- /content -->
+</div>
+<div class="toast" id="toast"></div>
+<script src="/static/js/MiRestaurante.js"></script>
+</body>
+</html>

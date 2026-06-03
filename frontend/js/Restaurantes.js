@@ -1,5 +1,11 @@
-// const API ='http://127.0.0.1:8000'
-const API ='https://restaurante-reservas-g9hl.onrender.com';
+const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://127.0.0.1:8000'
+  : 'https://restaurante-reservas-g9hl.onrender.com';
+
+const rol = localStorage.getItem('rv_rol');
+if (rol === 'cliente') document.getElementById('nav-solicitar-admin').style.display = '';
+if (rol === 'admin') document.getElementById('nav-mi-restaurante').style.display = '';
+if (rol === 'superadmin') document.getElementById('nav-solicitudes').style.display = '';
 
 const ICONOS_POR_RESTAURANTE = {
   'Crepes & Waffles': '🥞',

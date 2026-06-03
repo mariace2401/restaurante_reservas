@@ -211,3 +211,146 @@ def test_cancelar_reserva_no_existe():
         )
 
     assert response.status_code == 404
+
+
+# ================================
+# TESTS — USUARIOS (perfil)
+# ================================
+
+def test_perfil_sin_token():
+    """GET /usuarios/me sin token debe retornar 401"""
+    response = client.get("/usuarios/me")
+    assert response.status_code == 401
+
+
+def test_perfil_exitoso():
+    """GET /usuarios/me con token válido debe retornar datos"""
+    from backend.auth import crear_token
+    token = crear_token({"id": 1, "nombre": "Test", "correo": "test@reservibe.com", "rol": "cliente"})
+
+    mock_cursor = MagicMock()
+    mock_cursor.fetchone.return_value = (1, "Test User", "test@reservibe.com", "cliente", "2026-01-01")
+    mock_conn = MagicMock()
+    mock_conn.cursor.return_value = mock_cursor
+
+    with patch("backend.routes.usuarios.get_connection", return_value=mock_conn):
+        response = client.get(
+            "/usuarios/me",
+            headers={"Authorization": f"Bearer {token}"}
+        )
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["nombre"] == "Test User"
+    assert data["correo"] == "test@reservibe.com"
+
+
+def test_actualizar_perfil_sin_token():
+    """PUT /usuarios/me sin token debe retornar 401"""
+    response = client.put("/usuarios/me", json={"nombre": "Nuevo Nombre"})
+    assert response.status_code == 401
+
+
+def test_actualizar_perfil_exitoso():
+    """PUT /usuarios/me con datos válidos debe retornar 200"""
+    from backend.auth import crear_token
+    token = crear_token({"id": 1, "nombre": "Test", "correo": "test@reservibe.com", "rol": "cliente"})
+
+    mock_cursor = MagicMock()
+    mock_conn = MagicMock()
+    mock_conn.cursor.return_value = mock_cursor
+
+    with patch("backend.routes.usuarios.get_connection", return_value=mock_conn):
+        response = client.put(
+            "/usuarios/me",
+            json={"nombre": "Nuevo Nombre"},
+            headers={"Authorization": f"Bearer {token}"}
+        )
+
+    assert response.status_code == 200
+    assert "actualizado" in response.json()["mensaje"].lower()
+
+
+# ================================
+# TESTS — ADMIN (gestión restaurante)
+# ================================
+
+def test_admin_mis_restaurantes_sin_token():
+    """GET /admin/mis-restaurantes sin token debe retornar 401"""
+    response = client.get("/admin/mis-restaurantes")
+    assert response.status_code == 401
+
+
+def test_admin_mis_restaurantes_no_es_admin():
+    """GET /admin/mis-restaurantes con rol cliente debe retornar 403"""
+    from backend.auth import crear_token
+    token = crear_token({"id": 1, "correo": "test@reservibe.com", "rol": "cliente"})
+
+    response = client.get(
+        "/admin/mis-restaurantes",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    assert response.status_code == 403
+
+
+def test_admin_mi_restaurante_detalle_exitoso():
+    """GET /admin/mi-restaurante/{id} con rol admin debe retornar datos"""
+    from backend.auth import crear_token
+    token = crear_token({"id": 2, "correo": "admin@test.com", "rol": "admin"})
+
+    mock_cursor = MagicMock()
+    mock_cursor.fetchone.side_effect = [
+        (1, "Mi Rest", "Calle 1", "310000", "Desc"),  # restaurante
+    ]
+    mock_cursor.fetchall.side_effect = [
+        [("lunes", "08:00", "17:00")],  # horarios
+        [(1, 1, 4, True)]  # mesas
+    ]
+    mock_conn = MagicMock()
+    mock_conn.cursor.return_value = mock_cursor
+
+    with patch("backend.routes.admin.get_connection", return_value=mock_conn):
+        response = client.get(
+            "/admin/mi-restaurante/1",
+            headers={"Authorization": f"Bearer {token}"}
+        )
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["nombre"] == "Mi Rest"
+
+
+# ================================
+# TESTS — SOLICITUDES con horarios
+# ================================
+
+def test_crear_solicitud_con_horarios():
+    """POST /solicitudes con horarios debe guardarlos correctamente"""
+    from backend.auth import crear_token
+    token = crear_token({"id": 3, "correo": "cliente@test.com", "rol": "cliente"})
+
+    mock_cursor = MagicMock()
+    mock_cursor.fetchone.return_value = None  # No pending solicitud exists
+    mock_conn = MagicMock()
+    mock_conn.cursor.return_value = mock_cursor
+
+    body = {
+        "nombre_restaurante": "Test Restaurant",
+        "direccion": "Calle 123",
+        "num_mesas": 5,
+        "capacidad_mesas": 4,
+        "horarios": [
+            {"dia": "lunes", "apertura": "08:00", "cierre": "17:00"},
+            {"dia": "martes", "apertura": "09:00", "cierre": "18:00"}
+        ]
+    }
+
+    with patch("backend.routes.solicitudes.get_connection", return_value=mock_conn):
+        response = client.post(
+            "/solicitudes",
+            json=body,
+            headers={"Authorization": f"Bearer {token}"}
+        )
+
+    assert response.status_code == 200
+    assert "enviada" in response.json()["mensaje"].lower()
