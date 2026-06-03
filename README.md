@@ -107,12 +107,20 @@ DB_PASSWORD=tu_password
 SECRET_KEY=tu_clave_secreta_segura
 ```
 
-6. **Crear las tablas en la base de datos**
-Accede a pgAdmin en `http://localhost:5050` (admin@admin.com / 1234) y ejecuta el SQL necesario para crear las tablas `usuarios`, `restaurante`, `mesa`, `reservas`, `horario`.
+6. **Registrar el servidor en pgadmin**
+se insertan los datos del docker en el pgadmin:
+name:ReserVibe
+host:localhost
+port:5432
+database:reservibe
+username:postgres
+password:1234
 
 7. **Ejecutar la aplicación**
 ```bash
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
+o
+fastapi dev main.py
 ```
 
 8. **Abrir en el navegador**
