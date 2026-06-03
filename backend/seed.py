@@ -102,6 +102,8 @@ def seed_data():
     except:
         pass
 
+    cursor.execute("CLUSTER usuarios USING usuarios_pkey")
+
     conexion.commit()
     conexion.close()
     print("✅ Datos semilla insertados/actualizados correctamente")
