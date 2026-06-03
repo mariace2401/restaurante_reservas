@@ -1,8 +1,8 @@
 from backend.database import get_connection
 
 USUARIOS = [
-    (1, "Santiago Aristizabal", "aristisantiago7@gmail.com", "$2b$12$VYA6faCVQr2zMnsDIllhO.7DPy8pGJlB68jNS9N9W5AWVkz.PxqfO", "superadmin"),
-    (2, "Mariana Acevedo", "mariace2401@gmail.com", "$2b$12$RsHAmpP0ZEsn8TdYEa2nx.UrKL.N6pgRgmuogNt/5vlU7TvtUcnmy", "admin"),
+    ("Santiago Aristizabal", "aristisantiago7@gmail.com", "$2b$12$VYA6faCVQr2zMnsDIllhO.7DPy8pGJlB68jNS9N9W5AWVkz.PxqfO", "superadmin"),
+    ("Mariana Acevedo", "mariace2401@gmail.com", "$2b$12$RsHAmpP0ZEsn8TdYEa2nx.UrKL.N6pgRgmuogNt/5vlU7TvtUcnmy", "admin"),
 ]
 
 RESTAURANTES = [
@@ -44,35 +44,51 @@ def seed_data():
     conexion = get_connection()
     cursor = conexion.cursor()
 
-    cursor.execute("SELECT COUNT(*) FROM restaurante")
-    if cursor.fetchone()[0] > 0:
-        conexion.close()
-        print("ℹ️  La base de datos ya tiene datos semilla")
-        return
+    # --- Always insert seed users by email (never skip) ---
+    for nombre, correo, password, rol in USUARIOS:
+        cursor.execute(
+            "INSERT INTO usuarios (nombre, correo, password, rol) "
+            "VALUES (%s, %s, %s, %s) "
+            "ON CONFLICT (correo) DO NOTHING",
+            (nombre, correo, password, rol),
+        )
 
-    for u in USUARIOS:
+    # --- Look up actual IDs for admin users ---
+    admin_id = None
+    for _, correo, _, rol in USUARIOS:
+        cursor.execute("SELECT id FROM usuarios WHERE correo = %s", (correo,))
+        row = cursor.fetchone()
+        if row and rol == "admin":
+            admin_id = row[0]
+
+    # --- Restaurants: always point to the real admin ID ---
+    for r_id, _, nombre, direccion, telefono, descripcion in RESTAURANTES:
         cursor.execute(
-            "INSERT INTO usuarios (id, nombre, correo, password, rol) VALUES (%s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING",
-            u,
+            "INSERT INTO restaurante (id, id_usuario, nombre, direccion, telefono, descripcion) "
+            "VALUES (%s, %s, %s, %s, %s, %s) "
+            "ON CONFLICT (id) DO UPDATE SET id_usuario = EXCLUDED.id_usuario",
+            (r_id, admin_id, nombre, direccion, telefono, descripcion),
         )
-    for r in RESTAURANTES:
-        cursor.execute(
-            "INSERT INTO restaurante (id, id_usuario, nombre, direccion, telefono, descripcion) VALUES (%s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING",
-            r,
-        )
+
     for h in HORARIOS:
         cursor.execute(
-            "INSERT INTO horario (id, id_restaurante, dia_semana, hora_apertura, hora_cierre) VALUES (%s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING",
+            "INSERT INTO horario (id, id_restaurante, dia_semana, hora_apertura, hora_cierre) "
+            "VALUES (%s, %s, %s, %s, %s) "
+            "ON CONFLICT (id) DO NOTHING",
             h,
         )
     for m in MESAS:
         cursor.execute(
-            "INSERT INTO mesa (id, id_restaurante, numero_mesa, capacidad) VALUES (%s, %s, %s, %s) ON CONFLICT (id) DO NOTHING",
+            "INSERT INTO mesa (id, id_restaurante, numero_mesa, capacidad) "
+            "VALUES (%s, %s, %s, %s) "
+            "ON CONFLICT (id) DO NOTHING",
             m,
         )
     for rv in RESERVAS:
         cursor.execute(
-            "INSERT INTO reservas (id, usuario_id, id_mesa, fecha, hora, personas, estado) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING",
+            "INSERT INTO reservas (id, usuario_id, id_mesa, fecha, hora, personas, estado) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s) "
+            "ON CONFLICT (id) DO NOTHING",
             rv,
         )
 
@@ -88,7 +104,7 @@ def seed_data():
 
     conexion.commit()
     conexion.close()
-    print("✅ Datos semilla insertados correctamente")
+    print("✅ Datos semilla insertados/actualizados correctamente")
 
 
 if __name__ == "__main__":
