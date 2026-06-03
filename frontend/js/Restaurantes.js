@@ -1,5 +1,5 @@
 // const API ='http://127.0.0.1:8000'
-const API ='https://reservibe-tdr2.onrender.com';
+const API ='https://restaurante-reservas-g9hl.onrender.com';
 
 const ICONOS_POR_RESTAURANTE = {
   'Crepes & Waffles': '🥞',
