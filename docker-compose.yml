@@ -8,6 +8,7 @@ services:
     environment:
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: reservibe
+      POSTGRES_USER: postgres
     ports:
       - "5432:5432"
 
